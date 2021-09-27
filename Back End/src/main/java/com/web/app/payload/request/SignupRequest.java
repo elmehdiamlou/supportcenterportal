@@ -1,5 +1,8 @@
 package com.web.app.payload.request;
 
+
+
+
 public class SignupRequest {
 
 	private String firstname;
@@ -15,7 +18,7 @@ public class SignupRequest {
 	private String password;
 	
 	private String role;
-	
+
 	public String getFirstname() {
 		return firstname;
 	}
@@ -67,9 +70,10 @@ public class SignupRequest {
 	public String getRole() {
 		return role;
 	}
-	
+
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
 	
 }

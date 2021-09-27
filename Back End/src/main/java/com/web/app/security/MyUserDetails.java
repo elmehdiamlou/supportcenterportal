@@ -1,10 +1,10 @@
 package com.web.app.security;
 
 import java.util.ArrayList;
+
+
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,11 +38,10 @@ public class MyUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Set<Role> roles = this.user.getRoles();
+		Role role = this.user.getRole();
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		for(Role role: roles) {
-			authorities.add(new SimpleGrantedAuthority(role.getName().name()));
-		}
+		authorities.add(new SimpleGrantedAuthority(role.getName().name()));
+		
 		return authorities;
 	}
 

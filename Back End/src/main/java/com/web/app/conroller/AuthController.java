@@ -2,9 +2,14 @@ package com.web.app.conroller;
 
 import java.util.stream.Collectors;
 
-import java.util.HashSet;
+
+
+
+
+
+
 import java.util.List;
-import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,6 +44,8 @@ import com.web.app.service.UserService;
 public class AuthController {
 
 	
+	
+	
 	@Autowired
 	private JwtUtils jwtUtils;
 	
@@ -46,16 +53,18 @@ public class AuthController {
 	private UserService userService;
 	
 	@Autowired
+	private RoleRepository roleRepo;
+	
+	@Autowired
 	private PasswordEncoder passwordEncode;
 	
 	@Autowired
-	private RoleRepository roleRepo;
+	private AuthenticationManager authenticationManager;
 	
-	 @Autowired
-	 private AuthenticationManager authenticationManager;
-	
+	/* Login */
 	@PostMapping(value="/login")
 	public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception{
+		
 		
 			try {
 			
@@ -82,6 +91,8 @@ public class AuthController {
 			
 	}
 	
+	
+	/* Register a new user */
 	@PostMapping(value="/register", consumes = MimeTypeUtils.APPLICATION_JSON_VALUE,
 		    produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> register(@RequestBody SignupRequest signupRequest){
@@ -96,6 +107,7 @@ public class AuthController {
 					.body(new MessageResponse("User is already registered with this email !"));
 		}
 		
+		// Create new user's account
 		User user = new User(signupRequest.getFirstname(), 
 				             signupRequest.getLastname(), 
 				             signupRequest.getUsername(), 
@@ -104,35 +116,29 @@ public class AuthController {
 				             this.passwordEncode.encode(signupRequest.getPassword()));
 		
 		String strRole = signupRequest.getRole();
-		Set<Role> roles = new HashSet<>();
-		
-		if(strRole == null) {
-			Role guestRole = roleRepo.findByName(ERole.Guest)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(guestRole);
-		}else {
-				switch(strRole) {
-				   case "Admin" :
-					   Role adminRole = roleRepo.findByName(ERole.Admin)
-						.orElseThrow(() -> new RuntimeException("Error: Role is not found-1-."));
-					   roles.add(adminRole);
-					   break;
-					   
-				   case "Technician" :
-					   Role techRole = roleRepo.findByName(ERole.Technician)
-						.orElseThrow(() -> new RuntimeException("Error: Role is not found-2-."));
-					   roles.add(techRole);
-					   break;
-					   
-				   default:
-					   Role guestRole = roleRepo.findByName(ERole.Guest)
-						.orElseThrow(() -> new RuntimeException("Error: Role is not found-3-."));
-					   roles.add(guestRole);   
-				}
-			
+		System.out.println("======> "+strRole);
+		Role role;
+
+		if (strRole == null) {
+			role = this.roleRepo.findByName(ERole.Guest);
+			System.out.println("======> "+role);
+		} else {
+			switch (strRole) {
+			case "Admin":
+				role = this.roleRepo.findByName(ERole.Admin);
+				break;
+
+			case "Technician":
+				role = this.roleRepo.findByName(ERole.Technician);
+				break;
+
+			default:
+				role = this.roleRepo.findByName(ERole.Guest);
+			}
+
 		}
-		
-		user.setRoles(roles);
+
+		user.setRole(role);
 		this.userService.addUser(user);
 		
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

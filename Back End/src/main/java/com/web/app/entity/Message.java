@@ -17,6 +17,9 @@ import javax.persistence.Table;
 @Table(name="messages")
 public class Message implements Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -26,16 +29,18 @@ public class Message implements Serializable {
 	private LocalDateTime createdOn;
 	private String content;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User sender;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Ticket ticket;
 
+	/* Constructor */
 	public Message() {
 		super();
 	}
 
+	
 	public Message(LocalDateTime createdOn, String content, User sender, Ticket ticket) {
 		super();
 		this.createdOn = createdOn;
@@ -44,6 +49,8 @@ public class Message implements Serializable {
 		this.ticket = ticket;
 	}
 
+
+	/* Getters and setters */
 	public Long getId() {
 		return id;
 	}

@@ -1,7 +1,7 @@
 package com.web.app.conroller;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.app.entity.Product;
+import com.web.app.entity.Ticket;
 import com.web.app.entity.User;
 import com.web.app.payload.response.MessageResponse;
 import com.web.app.security.JwtUtils;
 import com.web.app.service.ProductService;
+import com.web.app.service.TicketService;
 import com.web.app.service.UserService;
 
 @CrossOrigin(origins = "*")
@@ -34,10 +36,13 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
+	@Autowired
+	private TicketService ticketService;
 	
 	@Autowired
 	private JwtUtils jwtUtils;
 	
+	/* Getting All Products */
 	@GetMapping(value="/all")
 	public ResponseEntity<List<Product>> getAllProducts(@RequestHeader("Authorization") String token){
 		try {
@@ -49,6 +54,8 @@ public class ProductController {
 		}
 	}
 	
+	
+	/* Add new Product By administrator */
 	@PostMapping(value="/add")
 	public ResponseEntity<Product> addNewProduct(@RequestHeader("Authorization") String token, @RequestBody Product product){
 		try {
@@ -62,6 +69,7 @@ public class ProductController {
 		}
 	}
 	
+	/* Edit Product */
 	@PostMapping(value="/edit")
 	public ResponseEntity<Product> editProduct(@RequestHeader("Authorization") String token, @RequestBody Product product){
 		try {
@@ -78,6 +86,7 @@ public class ProductController {
 		}
 	}
 
+	/* get Product */
 	@GetMapping(value="/get")
 	public ResponseEntity<Product> getProduct(@RequestHeader("Authorization") String token, @RequestParam("productId") String id){
 		try {
@@ -89,13 +98,21 @@ public class ProductController {
 		}
 	}
 	
+	/* Delete Product */
 	@DeleteMapping(value="/delete")
-	public ResponseEntity<?> deleteProduct(@RequestHeader("Authorization") String token, @RequestParam("productId") String productId){
+	public ResponseEntity<?> deleteProduct(@RequestHeader("Authorization") String token, @RequestParam("productId") Long productId){
 		try {
 			if(this.userService.findUserByUsername(this.jwtUtils.getUserNameFromJwtToken(token)) != null &&
-			   this.productService.getProductById(Long.parseLong(productId)) != null) 
+			   this.productService.getProductById(productId) != null) 
 			{
-				this.productService.deleteProduct(Long.parseLong(productId));
+				List<Ticket> tickets = this.ticketService.allTickets().stream()
+						                      .filter(ticket -> ticket.getProduct().getId().equals(productId))
+						                      .collect(Collectors.toList());
+				this.productService.deleteProduct(productId);
+				for(Ticket ticket : tickets) {
+					ticket.setProduct(null);
+					this.ticketService.addTicket(ticket);
+				}
 			}
 			return ResponseEntity.ok(new MessageResponse("Delete Product Successfully."));
 		}catch(Exception e) {

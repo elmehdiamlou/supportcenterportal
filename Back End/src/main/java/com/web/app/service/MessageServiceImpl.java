@@ -17,6 +17,8 @@ public class MessageServiceImpl implements MessageService {
 
 	@Autowired
 	private MessageRepository messageRepo;
+
+	
 	
 	@Override
 	public Message addNewMessage(Message message) {
@@ -30,6 +32,16 @@ public class MessageServiceImpl implements MessageService {
 				                  .sorted(Comparator.comparing(Message::getCreatedOn))
 				                  .collect(Collectors.toList());
 		return messages;
+	}
+
+	@Override
+	public void deleteMessage(Long messageId) {
+		this.messageRepo.deleteById(messageId);
+	}
+
+	@Override
+	public List<Message> getAllMessages() {
+		return this.messageRepo.findAll();
 	}
 
 }

@@ -1,8 +1,8 @@
 package com.web.app.entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,15 +10,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="users")
 public class User implements Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -32,16 +33,17 @@ public class User implements Serializable {
 	private String phone;
 	private String password;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="users_roles", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
-	private Set<Role> roles = new HashSet<>();
-
-
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Role role ;
+	
+	/* constructors */
 	public User() {
 		super();
 	}
 	
-	public User(String firstName, String lastName, String userName, String email, String phone, String password, Set<Role> roles) {
+	
+	public User(String firstName, String lastName, String userName, String email, String phone, String password,
+			Role role) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -49,9 +51,10 @@ public class User implements Serializable {
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
-		this.roles = roles;
+		this.role = role;
 	}
-	
+
+
 	public User(String firstName, String lastName, String userName, String email, String phone, String password) {
 		super();
 		this.firstName = firstName;
@@ -62,6 +65,7 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+	/* Getters and Setters*/
 	public Long getId() {
 		return id;
 	}
@@ -118,16 +122,16 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public Set<Role> getRoles() {
-		return roles;
+
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
+
 	
-	public void addRole(Role role) {
-		this.roles.add(role);
-	}
-
+	
 }

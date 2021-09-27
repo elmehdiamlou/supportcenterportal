@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 		return this.userRepo.findByuserName(userName);
 	}
 
-	public String[] getNullPropertyNames(User source) {
+	public String[] getNullPropertyNames (User source) {
 	    final BeanWrapper src = new BeanWrapperImpl(source);
 	    java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
 
@@ -60,8 +60,8 @@ public class UserServiceImpl implements UserService {
 	    String[] result = new String[emptyNames.size()];
 	    return emptyNames.toArray(result);
 	}
-
 	@Override
+	// then use Spring BeanUtils to copy and ignore null using our function
 	public User ignoreNullCopy(User src, User target) {
 	    BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
 	    return target;

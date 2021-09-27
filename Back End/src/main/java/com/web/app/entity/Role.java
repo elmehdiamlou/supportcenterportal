@@ -2,7 +2,6 @@ package com.web.app.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,17 +11,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="roles")
+@Table(name="Role")
 public class Role implements Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="role_id", nullable = false, updatable = false)
 	private Long id;
 	@Enumerated(EnumType.STRING)
-	private ERole name; // { "Guest", "Technician", "Admin" }
+	private ERole name;
 	
 	public Role() {
 		super();
@@ -48,5 +49,6 @@ public class Role implements Serializable {
 	public void setName(ERole name) {
 		this.name = name;
 	}
+	
 	
 }
