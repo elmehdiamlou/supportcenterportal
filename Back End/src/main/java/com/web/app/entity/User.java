@@ -2,8 +2,6 @@ package com.web.app.entity;
 
 import java.io.Serializable;
 
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,9 +15,6 @@ import javax.persistence.Table;
 @Table(name="users")
 public class User implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -36,11 +31,9 @@ public class User implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role ;
 	
-	/* constructors */
 	public User() {
 		super();
 	}
-	
 	
 	public User(String firstName, String lastName, String userName, String email, String phone, String password,
 			Role role) {
@@ -54,7 +47,6 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-
 	public User(String firstName, String lastName, String userName, String email, String phone, String password) {
 		super();
 		this.firstName = firstName;
@@ -65,7 +57,6 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	/* Getters and Setters*/
 	public Long getId() {
 		return id;
 	}
@@ -122,16 +113,11 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-
 	public Role getRole() {
 		return role;
 	}
 
-
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
-	
-	
 }
