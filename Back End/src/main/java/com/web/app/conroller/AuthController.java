@@ -2,14 +2,7 @@ package com.web.app.conroller;
 
 import java.util.stream.Collectors;
 
-
-
-
-
-
-
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -43,9 +36,6 @@ import com.web.app.service.UserService;
 @RequestMapping(value="/api/auth")
 public class AuthController {
 
-	
-	
-	
 	@Autowired
 	private JwtUtils jwtUtils;
 	
@@ -61,38 +51,25 @@ public class AuthController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
-	/* Login */
 	@PostMapping(value="/login")
 	public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception{
-		
-		
 			try {
-			
 			Authentication auth = 
 			        authenticationManager.authenticate(
 			            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
 			        );
-
 			SecurityContextHolder.getContext().setAuthentication(auth);
-			
 			String jwt = this.jwtUtils.generateJwtToken(auth);
-			
 			MyUserDetails myUserDetails = (MyUserDetails) auth.getPrincipal();
-			
 			List<String> roles = myUserDetails.getAuthorities().stream()
 					                 .map(item -> item.getAuthority())
 					                 .collect(Collectors.toList());
-			
 			return ResponseEntity.ok(new JwtResponse(jwt,myUserDetails.getUsername() ,roles));
-			
 			}catch(Exception e) {
 				throw new Exception("Inavalid username or password");
 			}
-			
 	}
 	
-	
-	/* Register a new user */
 	@PostMapping(value="/register", consumes = MimeTypeUtils.APPLICATION_JSON_VALUE,
 		    produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> register(@RequestBody SignupRequest signupRequest){
@@ -106,22 +83,16 @@ public class AuthController {
 					.badRequest()
 					.body(new MessageResponse("User is already registered with this email !"));
 		}
-		
-		// Create new user's account
 		User user = new User(signupRequest.getFirstname(), 
 				             signupRequest.getLastname(), 
 				             signupRequest.getUsername(), 
 				             signupRequest.getEmail(),
 				             signupRequest.getPhone(),
 				             this.passwordEncode.encode(signupRequest.getPassword()));
-		
 		String strRole = signupRequest.getRole();
-		System.out.println("======> "+strRole);
 		Role role;
-
 		if (strRole == null) {
 			role = this.roleRepo.findByName(ERole.Guest);
-			System.out.println("======> "+role);
 		} else {
 			switch (strRole) {
 			case "Admin":
@@ -135,17 +106,9 @@ public class AuthController {
 			default:
 				role = this.roleRepo.findByName(ERole.Guest);
 			}
-
 		}
-
 		user.setRole(role);
 		this.userService.addUser(user);
-		
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
-	
-	
-	
-	
-	
 }
