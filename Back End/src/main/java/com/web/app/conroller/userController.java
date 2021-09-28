@@ -1,6 +1,7 @@
 package com.web.app.conroller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.app.entity.ERole;
 import com.web.app.entity.Role;
+import com.web.app.entity.Ticket;
 import com.web.app.entity.User;
 import com.web.app.payload.request.SignupRequest;
 import com.web.app.payload.response.MessageResponse;
 import com.web.app.repository.RoleRepository;
+import com.web.app.repository.TicketRepository;
 import com.web.app.repository.UserRepository;
 import com.web.app.security.JwtUtils;
+import com.web.app.service.TicketService;
 import com.web.app.service.UserService;
 
 
@@ -37,6 +41,9 @@ public class userController {
 	private UserService userService;
 	
 	@Autowired
+	private TicketService ticketService;
+	
+	@Autowired
 	private PasswordEncoder passwordEncode;
 		
 	@Autowired
@@ -46,16 +53,19 @@ public class userController {
 	private UserRepository userRepo;	
 	
 	@Autowired
+	private TicketRepository ticketRepo;
+	
+	@Autowired
 	private JwtUtils jwtUtils;
 
 	@GetMapping(value="/role")
-	public String getUserRole(@RequestHeader("authorization") String token){
+	public ResponseEntity<?> getUserRole(@RequestHeader("authorization") String token){
 		try {
 			String username = this.jwtUtils.getUserNameFromJwtToken(token);
 			User user = this.userService.findUserByUsername(username);
-			return user.getRole().getName().toString();
-		}catch(Exception e) {
-	        throw e;
+			return ResponseEntity.ok(new MessageResponse(user.getRole().getName().toString()));
+		} catch(Exception e) {
+			throw e;
 		}
 	}
 	
@@ -202,6 +212,24 @@ public class userController {
 		{
 			try {
 				User user = this.userService.getUserById(Id);
+				if(user.getRole().getName().toString() == "Guest") {
+					List<Ticket> tickets = this.ticketService.allTickets().stream()
+						.filter(t -> t.getGuest().getId().equals(user.getId()))
+						.collect(Collectors.toList());
+					for(Ticket ticket : tickets) {
+						this.ticketService.delelteTicket(ticket.getId());
+					}
+				}
+				if(user.getRole().getName().toString() == "Technician") {
+					List<Ticket> tickets = this.ticketService.allTickets().stream()
+						.filter(t -> t.getTechnician().getId().equals(user.getId()))
+						.collect(Collectors.toList());
+					for(Ticket ticket : tickets) {
+						ticket.setTechnician(null);
+						ticket.setStatus(true);
+						this.ticketRepo.save(ticket);
+					}
+				}
 			    userRepo.delete(user);
 			}catch(NullPointerException e) {
 				System.out.println("Not found");
