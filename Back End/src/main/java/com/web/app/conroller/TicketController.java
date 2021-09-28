@@ -54,29 +54,19 @@ public class TicketController {
 	@Autowired
 	private JwtUtils jwtUtils;
 
-	/*
-	 * =============================================================================
-	 * ================== Guest Part *
-	 * =============================================================================
-	 * ===================
-	 */
-	/* Get All Tickets of Existing Guest */
 	@GetMapping(value = "/all")
 	public ResponseEntity<?> allGuestTickets(@RequestParam("authorization") String token) {
 		try {
-
 			String username = this.jwtUtils.getUserNameFromJwtToken(token);
 			User guest = this.userService.findUserByUsername(username);
 			List<Ticket> tickets = this.ticketService.allTickets().stream()
 					.filter(ticket -> ticket.getGuest().getId().equals(guest.getId())).collect(Collectors.toList());
 			return ResponseEntity.ok(tickets);
-
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: This ticket is null !!!"));
 		}
 	}
 
-	/* Add a new ticket by existing guest */
 	@PostMapping(value = "/add", consumes = MimeTypeUtils.APPLICATION_JSON_VALUE, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addNewTicket(@RequestBody TicketRequest ticketRequest,
 			@RequestHeader("Authorization") String token) {
@@ -85,22 +75,17 @@ public class TicketController {
 			if (ticketRequest == null) {
 				return ResponseEntity.badRequest().body(new MessageResponse("Error: This ticket is null !!!"));
 			}
-
-			// Get Data from ticket request
 			Product product = this.productService.getProductById(ticketRequest.getProductId());
 			String username = this.jwtUtils.getUserNameFromJwtToken(token);
 			User user = this.userService.findUserByUsername(username);
-			// Create a new ticket
 			Ticket ticket = new Ticket();
-			ticket.setState(false); // Unassign by default
-			ticket.setStatus(true); // Open by default
+			ticket.setState(false);
+			ticket.setStatus(true); 
 			ticket.setProduct(product);
 			ticket.setDescription(ticketRequest.getDescription());
 			ticket.setOpenDate(ticketRequest.getOpenDate());
 			ticket.setGuest(user);
 			this.ticketService.addTicket(ticket);
-
-			// Create a new message
 			if (ticketRequest.getMessage() != null || ticketRequest.getMessage() != "") {
 				Message message = new Message();
 				message.setCreatedOn(ticketRequest.getOpenDate());
@@ -141,7 +126,6 @@ public class TicketController {
 		}
 	}
 
-	/* Delete Ticket */
 	@DeleteMapping(value = "/delete")
 	public ResponseEntity<?> deleteTicket(@RequestParam("authorization") String token,
 			@RequestParam("ticketId") Long ticketId) {
@@ -172,7 +156,6 @@ public class TicketController {
 		}
 	}
 
-	/* Send Message from Guest or Technician */
 	@GetMapping(value = "/sendMessage")
 	public ResponseEntity<?> sendMessage(@RequestParam("token") String token, @RequestParam("ticketId") Long ticketId,
 			@RequestParam("message") String content) {
@@ -192,14 +175,6 @@ public class TicketController {
 		}
 	}
 
-	/*
-	 * =============================================================================
-	 * ================== Technician Part *
-	 * =============================================================================
-	 * ===================
-	 */
-
-	/* Getting No Assign tickets */
 	@GetMapping(value = "/unassignTickets")
 	public ResponseEntity<?> getUnAssignTickets(@RequestHeader("Authorization") String token) {
 		try {
@@ -216,7 +191,6 @@ public class TicketController {
 		}
 	}
 
-	/* Getting Assign tickets */
 	@GetMapping(value = "/assignTickets")
 	public ResponseEntity<?> getAssignTickets(@RequestHeader("Authorization") String token) {
 		try {
@@ -231,7 +205,6 @@ public class TicketController {
 		}
 	}
 
-	/* Assign Or Unassign ticket to Technician */
 	@GetMapping(value = "/assign/{id}")
 	public ResponseEntity<?> assignTicket(@RequestParam("token") String token,
 			@PathVariable("id") Long ticketId) {
@@ -255,7 +228,6 @@ public class TicketController {
 		}
 	}
 
-	/* Edit Status Of Assign Ticket */
 	@GetMapping(value = "/changeStatus")
 	public ResponseEntity<Ticket> editAssignTicket(@RequestHeader("Authorization") String token,
 			@RequestParam("ticketId") Long ticketId, @RequestParam("ticketStatus") String status) {
@@ -272,15 +244,6 @@ public class TicketController {
 		}
 	}
 
-	/*
-	 * =============================================================================
-	 * ================== Administrator Part *
-	 * =============================================================================
-	 * ===================
-	 */
-
-	/* Getting All Tickets With Exceptions */
-
 	@GetMapping(value = "allTickets")
 	public ResponseEntity<List<Ticket>> getAllTickets(@RequestHeader("Authorization") String token) {
 		try {
@@ -292,7 +255,5 @@ public class TicketController {
 		} catch (Exception e) {
 			return new ResponseEntity<List<Ticket>>(HttpStatus.BAD_REQUEST);
 		}
-
 	}
-
 }
