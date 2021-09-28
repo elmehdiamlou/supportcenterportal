@@ -17,9 +17,6 @@ import javax.persistence.Table;
 @Table(name="tickets")
 public class Ticket implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -40,7 +37,6 @@ public class Ticket implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Product product;
 	
-	/* Constructor */
 	public Ticket() {
 		super();
 	}
@@ -57,9 +53,6 @@ public class Ticket implements Serializable {
 		this.product = product;
 	}
 
-
-
-	/* Getters and Setters */
 	public Long getId() {
 		return id;
 	}
@@ -75,7 +68,6 @@ public class Ticket implements Serializable {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-
 	
 	public LocalDateTime getOpenDate() {
 		return openDate;
@@ -124,7 +116,4 @@ public class Ticket implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
-	
-	
 }
