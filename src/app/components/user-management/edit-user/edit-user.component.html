@@ -1,0 +1,87 @@
+<div class="box">
+    <h2>Edit user</h2>
+    <div *ngIf="message != null" class="message">
+        <h4 [ngStyle]="{'color':msgColor}">{{message}}</h4>
+    </div>
+</div>
+<div class="content">
+    <form *ngIf="user" class="div-style" [formGroup]="edituserForm" (ngSubmit)="saveUser()">
+        <div class="span">
+            Id
+        </div>
+        <div>
+            <input class="input-style" disabled type="text" value="{{userid}}" >
+        </div>
+        <div class="span">
+            First Name
+        </div>
+        <div>
+            <input formControlName="firstName" class="input-style" type="text" placeholder="First Name" [ngStyle]="{'border': submitted && f.firstName.errors ? '0.5px solid red' : '0.5px solid #afc9cd'}">
+            <div *ngIf="submitted && f.firstName.invalid" class="invalid-feedback" >
+                <div *ngIf="f.firstName.errors?.required">First Name is required</div>
+            </div>
+        </div>
+        <div class="span">
+            Last Name
+        </div>
+        <div>
+            <input formControlName="lastName" class="input-style" type="text" placeholder="Last Name" [ngStyle]="{'border': submitted && f.lastName.errors ? '0.5px solid red' : '0.5px solid #afc9cd'}">
+            <div *ngIf="submitted && f.lastName.invalid" class="invalid-feedback" >
+                <div *ngIf="f.lastName.errors?.required">Last Name is required</div>
+            </div>
+        </div>
+        <div class="span">
+            Email
+        </div>
+        <div>
+            <input formControlName="email" class="input-style" type="email" placeholder="Email" [ngStyle]="{'border': submitted && f.email.errors ? '0.5px solid red' : '0.5px solid #afc9cd'}">
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback" >
+                <div *ngIf="f.email.errors?.required">Email is required</div>
+                <div *ngIf="f.email.errors?.email">Email must be a valid email address</div>
+            </div>
+        </div>
+        <div class="span">
+            Phone
+        </div>
+        <div>
+            <input formControlName="phone" class="input-style" type="text" placeholder="Phone" [ngStyle]="{'border': submitted && f.phone.errors ? '0.5px solid red' : '0.5px solid #afc9cd'}">
+            <div *ngIf="submitted && f.phone.invalid" class="invalid-feedback" >
+                <div *ngIf="f.phone.errors?.required">Phone is required</div>
+                <div *ngIf="f.phone.errors?.pattern">Phone must be a valid MA number</div>
+            </div>
+        </div>
+        <div class="span">
+            Role
+        </div>
+        <div>
+            <select formControlName="role" class="input-style" [ngStyle]="{'border': submitted && f.role.errors ? '0.5px solid red' : '0.5px solid #afc9cd'}">
+                <option *ngFor="let role of roles" [value]="role.id">{{role.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.role.invalid" class="invalid-feedback" >
+                <div *ngIf="f.role.errors">Role is required</div>
+            </div>
+        </div>
+
+        <div class="span">
+            Username
+        </div>
+        <div>
+            <input formControlName="userName" class="input-style" type="text" placeholder="Username" [ngStyle]="{'border': submitted && f.userName.errors ? '0.5px solid red' : '0.5px solid #afc9cd'}">
+            <div *ngIf="submitted && f.userName.invalid" class="invalid-feedback" >
+                <div *ngIf="f.userName.errors?.required">Username is required</div>
+            </div>
+        </div>
+        <div class="span">
+            New Password
+        </div>
+        <div>
+            <input formControlName="password" class="input-style" type="text" placeholder="New Password">
+        </div>
+        <input type="button" class="btn2 btncancel" routerLink="/user/management"  value="Cancel">
+        <input [ngStyle]="{'display': loading ? 'none' : 'block'}" type="submit" class="btn2 btnsave" value="Save">
+        <div *ngIf="loading" class="spinner"></div>
+    </form>
+    <div>
+        <div style="user-select: none; color: #eaeaea;">.</div>
+      </div>
+</div>

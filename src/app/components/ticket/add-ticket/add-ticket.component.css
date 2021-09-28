@@ -1,0 +1,222 @@
+.content {
+  border-top: 0.4px solid rgba(8, 37, 45, .1);
+  border-bottom: 0.4px solid rgba(8, 37, 45, .1);
+  margin: 10px 10px;
+  padding-top: 10px;
+  padding-bottom: 50px;
+  height: 83%;
+  overflow-y: scroll;
+}
+
+.newticket-div {
+  width: 65%;
+  transform: translateX(25%);
+}
+
+.chat-div {
+  background-color: #fafafa;
+  justify-content: center;
+  border: 0.5px solid #afc9cd;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.inputchat-style {
+  font-family: 'Rubik', sans-serif;
+  width: 85%;
+  margin-left: 1%;
+  font-size: 15px;
+  height: 40px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 0.5px solid #afc9cd;
+}
+
+.btnsent {
+  height: 40px;
+  width: 10%;
+  display: flex;
+  float: right;
+  flex-direction: row;
+  user-select: none;
+  cursor: pointer;
+  color: royalblue;
+  border-radius: 5px;
+  padding: 4px;
+  margin-right: 1%;
+
+}
+
+.btnsent a {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.btnsent:hover {
+  user-select: none;
+  cursor: pointer;
+  background-color: #e7e7e7;
+}
+
+.textareachat-style {
+  font-family: 'Rubik', sans-serif;
+  resize: none;
+  width: 100%;
+  font-size: 15px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 0.5px solid #afc9cd;
+}
+.input-style {
+  font-family: 'Rubik', sans-serif;
+  width: 100%;
+  font-size: 15px;
+  height: 40px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 0.5px solid #afc9cd;
+}
+.input-style option{
+  width: 100%;
+  padding: 1rem;
+  border-radius: .5rem;
+  border: .1rem solid #afc9cd
+}
+.textarea-style {
+  font-family: 'Rubik', sans-serif;
+  width: 100%;
+  font-size: 15px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 0.5px solid #afc9cd;
+  resize: none;
+}
+
+.span {
+  font-family: 'Rubik', sans-serif;
+  font-size: 15px;
+  line-height: 30px;
+}
+
+.input-div {
+  float: right;
+  display: grid;
+  width: 25%;
+  grid-template-columns: 10% 80%;
+  border-bottom: 2px solid #08252d;
+  margin: 25px 20px;
+  padding-bottom: 2px;
+}
+
+.icon {
+  padding-left: 5px;
+}
+
+h2 {
+  font-family: 'Rubik', sans-serif;
+  user-select: none;
+  font-size: 24px;
+  color: #08252d;
+  line-height: 70px;
+  margin: 0 20px;
+}
+
+.btn2 {
+  height: 35px;
+  font-size: 15px;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  color: #fafafa;
+  margin-right: 10px;
+}
+
+.btncancel {
+  background-color: #646464;
+}
+
+.btncancel:hover {
+  background-color: #4e4e4e;
+}
+
+.btnsave {
+  background-color: #7386d5;
+}
+
+.btnsave:hover {
+  background-color: #6374bd;
+}
+
+/* Message */
+.box{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.box .message{
+  font-size: 1rem;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background: #dbdbdb;
+  border-radius: .5rem;
+  transform: translateX(110%);
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+}
+.box .message.active{
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* spinner */
+/* Spinner */
+
+.boxx {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.boxSpinner{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.spinner {
+  border: 6px solid #eaeaea;
+  border-top: 6px solid #17a2b8;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,50 @@
+<div class="box">
+    <h2>New Ticket</h2>
+    <div *ngIf="msgText != null" class="message">
+        <h4 [ngStyle]="{'color':msgColor}">{{msgText}}</h4>
+    </div>
+</div>
+<div class="content">
+    <form class="newticket-div" [formGroup]="ticketForm" (ngSubmit)="onAddTicket()">
+                    <div class="span">
+                        Open date
+                    </div>
+                    <div>
+                        <input formControlName="openDate" class="input-style" type="datetime-local">
+                    </div>
+                    <div class="span">
+                        Product
+                    </div>
+                    <div>
+                        <select formControlName="productId" class="input-style">
+                            <option *ngFor="let product of products"  value="{{product.id}}" >{{product.name}}</option>
+                        </select>
+                    </div>
+                    <div class="span">
+                        Ticket Description
+                    </div>
+                    <div>
+                        <textarea formControlName="description" rows="10" class="textarea-style" type="text" placeholder="Give it a short description"></textarea>
+                    </div>
+                    <div class="span">
+                        Send Message
+                    </div>
+                    <div class="chat-div">
+                        <input formControlName="message" class="inputchat-style" type="text" placeholder="type a message here">
+                    </div>
+                    <div  class="boxx">
+                        <div  class="boxSpinner">
+                            <span *ngIf="loading"  class="spinner"></span>
+                        </div>
+                        <div class="buttons">
+                            <input type="submit" class="btn2 btnsave" value="Save">
+                            <input type="button" class="btn2 btncancel" routerLink="/user/ticket/listTicket" value="Cancel">
+                        </div>
+                        
+                    </div>
+                    
+            
+
+    </form>
+</div>
+                    

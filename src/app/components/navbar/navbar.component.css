@@ -1,0 +1,78 @@
+.sidebar {
+  position: fixed;
+  width: 250px;
+  height: 100%;
+  background: #7386d5;
+}
+.sidebar header {
+  font-weight: bold;
+  user-select: none;
+  font-size: 30px;
+  color: #fafafa;
+  background: #6d7fcc;
+  padding: 15px;
+}
+
+.sidebar ul a {
+  user-select: none;
+  display: block;
+  height: 100%;
+  width: 100%;
+  line-height: 50px;
+  font-size: 16px;
+  color: #fafafa;
+  padding-left: 20px;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+.sidebar ul a.active{
+  background: #fafafa;
+  color: #7386d5;
+}
+.logout {
+  color: crimson !important;
+  cursor: pointer;
+}
+
+.logout:hover {
+  color: #fafafa !important;
+  background-color: crimson !important;
+}
+
+.martop {
+  margin-top: 100px;
+}
+
+.sidebar ul a:hover {
+  color: #7386d5;
+  background-color: #fafafa;
+}
+
+.profilebar {
+  position: fixed;
+  left: 290px;
+  right: 35px;
+  top: 5%;
+  width: auto;
+  height: 50px;
+  background: #fafafa;
+  box-shadow: 0.8px 0.8px 3px #e7e7e7;
+  border-radius: 3px;
+}
+
+.profilebar span {
+  font-size: 14px;
+  line-height: 48px;
+}
+
+.span {
+  font-family: 'Rubik', sans-serif;
+  font-size: 15px;
+  line-height: 30px;
+}
+
+.profilebar {
+  user-select: none;
+  text-align: right;
+  padding-right: 30px;
+}

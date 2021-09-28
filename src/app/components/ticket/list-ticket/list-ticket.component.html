@@ -1,0 +1,262 @@
+<div [ngSwitch]="user_role">
+<!--Confirmation Model to delete-->
+<div class="cart">
+    <div class="content" id="confirmCart">
+       <h4>Are you sure you want to delete this ticket?</h4>
+       <div class="buttons">
+          <button (click)="deleteTicketById()" class="confirmBtn">Delete</button>
+          <button (click)="cancelDeleteCart()" class="cancelBtn">Cancel</button>
+       </div>
+     </div>
+</div>
+<!--For Guest-->
+<div *ngSwitchCase="'Guest'">
+<button routerLink="/user/ticket/addTicket" type="button" class="btn">
+    <i class="fas fa-plus"></i> 
+    Add New
+</button>
+<div class="input-div">
+    <div class="icon">
+       <i class="fas fa-search"></i>
+    </div>
+    <div>
+       <input class="input-search" name="key" (ngModelChange)="searchTicket(key.value)"  #key="ngModel" ngModel  type="text" placeholder="Search ...">
+    </div>
+</div>
+<div>
+    <div class="box">
+    <h2>All Tickets</h2>
+    <div *ngIf="message != null" class="message" id="message1">
+        <h4 [ngStyle]="{'color':msgColor}">{{message.message}}</h4>
+    </div>
+</div>
+     <div *ngIf="loading ; else GuestTickets" class="boxSpinner">
+         <span class="spinner"></span>
+     </div>
+     <ng-template #GuestTickets>
+         <div id="table-wrapper">
+            <div style="height: 25rem;" id="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                           <th width="8%">Id</th>
+                           <th>Status</th>
+                           <th>OpenDate</th>
+                           <th>Description</th>
+                           <th>Product</th>
+                           <th width="14%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="guest_tickets?.length === 0">
+                        <td colspan="6">
+                            There is no ticket right now !
+                        </td>
+                    </tr>
+                    <tr *ngFor="let ticket of guest_tickets">
+                        <td>{{ticket.id}}</td>
+                        <td>
+                            <span *ngIf="ticket.status ; else Close">Open</span>
+                            <ng-template #Close>Close</ng-template>
+                        </td>
+                        <td>{{ticket.openDate | date: 'yyyy-MM-dd HH:mm'}}</td>
+                        <td>{{ticket.description}}</td>
+                        <td>
+                            {{ticket.product?.name}}
+                        </td>
+                        <td>
+                            <button type="button" class="btnico explore"  routerLink="/user/ticket/exploreTicket" [queryParams]="{id : ticket.id}"><i class="fas fa-expand-alt"></i></button>
+                            <button type="button" (click)="deleteTicket(ticket.id)" class="btnico delete"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+         </div>
+     </ng-template>   
+</div>
+</div>
+
+<!--For Tech-->
+<div   *ngSwitchCase="'Technician'">
+    <div class="input-div">
+                <div class="icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div>
+                    <input class="input-search" name="key" (ngModelChange)="searchTicket(key.value)"  #key="ngModel" ngModel   type="text" placeholder="Search ..." maxlength="50">
+                </div>
+            </div>
+            <div>
+                <h2>Unassigned tickets:</h2>
+                <div *ngIf="loading ; else Unassigned" class="boxSpinner">
+                      <span class="spinner"></span>
+                </div>
+                <ng-template #Unassigned>
+                  <div id="table-wrapper">
+                   <div id="table-scroll">
+                    <table>
+                     <thead>
+                         <tr>
+                             <th width="4%">Id</th>
+                             <th width="6%">Status</th>
+                             <th>OpenDate</th>
+                             <th >Description</th>
+                             <th>Guest</th>
+                             <th>Product</th>
+                             <th width="4%">Action</th>
+                         </tr>     
+                     </thead>
+                     <tbody>
+                         <tr *ngIf="tech_unassign_tickets?.length === 0">
+                        <td colspan="7">
+                            There is no tickets unassign right now.
+                        </td>
+                    </tr>
+                    <tr *ngFor="let ticket of tech_unassign_tickets">
+                        <td>{{ticket.id}}</td>
+                        <td>
+                            <span *ngIf="ticket.status ; else Close">Open</span>
+                            <ng-template #Close>Close</ng-template>
+                        </td>
+                        <td>{{ticket.openDate | date: 'yyyy-MM-dd HH:mm'}}</td>
+                        <td>{{ticket.description}}</td>
+                        <td>{{ticket.guest.userName}}</td>
+                        <td>
+                            {{ticket.product.name}}
+                        </td>
+                        <td>
+                            <button type="button" (click)="assignOrUnassignTicket(ticket.id)" class="btnico assign">
+                                <i class="fas fa-arrow-down"></i>
+                            </button>
+                        </td>
+                    </tr>
+                     </tbody>
+                </table>
+               </div>
+              </div>
+            </ng-template>
+            </div>
+
+
+            <div>
+                <div class="box">
+                    <h2>Tickets assigned to me:</h2>
+                    <div *ngIf="message != null" class="message" id="message2">
+                        <h4 [ngStyle]="{'color':msgColor}">{{message}}</h4>
+                    </div>
+                </div>
+                <div *ngIf="loading ; else Assigned" class="boxSpinner">
+                      <span class="spinner"></span>
+                </div>
+       <ng-template #Assigned>
+          <div id="table-wrapper">
+            <div id="table-scroll">
+                <table>
+                    <thead>
+                      <tr>
+                        <th width="4%">Id</th>
+                        <th width="4%">Status</th>
+                        <th>OpenDate</th>
+                        <th>Description</th>
+                        <th>Guest</th>
+                        <th>Product</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="tech_assign_tickets?.length === 0">
+                               <td colspan="7">
+                                     There is no ticket assigned for you right now.
+                                </td>
+                         </tr>
+                    <tr *ngFor="let ticket of tech_assign_tickets">
+                        <td>{{ticket.id}}</td>
+                        <td>
+                            <span *ngIf="ticket.status; else Close">Open</span>
+                            <ng-template #Close>Close</ng-template>
+                        </td>
+                        <td>{{ticket.openDate | date: 'yyyy-MM-dd HH:mm'}}</td>
+                        <td>{{ticket.description}}</td>
+                        <td>{{ticket.guest.userName}}</td>
+                        <td>
+                            {{ticket.product.name}}  
+                        </td>
+                        <td>
+                            <button type="button" class="btnico edit"  routerLink="/user/ticket/exploreTicket" [queryParams]="{id : ticket.id}"><i class="fas fa-pen"></i></button>
+                            <button type="button" (click)="deleteTicket(ticket.id)" class="btnico delete"><i class="fas fa-trash-alt"></i></button>
+                            <button type="button" (click)="assignOrUnassignTicket(ticket.id)" class="btnico unassign"><i class="fas fa-arrow-up"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-template>
+</div>
+</div>
+
+
+<!--For Admin-->
+<div *ngSwitchCase="'Admin'">
+    <div class="input-div">
+                <div class="icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div>
+                    <input class="input-search" name="key" (ngModelChange)="searchTicket(key.value)"  #key="ngModel" ngModel   type="text" placeholder="Search ..." maxlength="50">
+                </div>
+            </div>
+            <div>
+                <h2>All tickets:</h2>
+                <div style="margin-left: 25rem;" *ngIf="message != null" class="message" id="message1">
+                     <h4 [ngStyle]="{'color':msgColor}">{{message.message}}</h4>
+                </div>
+                <div *ngIf="loading ; else AllTickets" class="boxSpinner">
+                      <span class="spinner"></span>
+                </div>
+                <ng-template #AllTickets>
+                  <div id="table-wrapper">
+                     <div style="height: 26rem;" id="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                   <th width="4%">Id</th>
+                                   <th>Status</th>
+                                   <th>OpenDate</th>
+                                   <th >Description</th>
+                                   <th>Guest</th>
+                                   <th>Product</th>
+                                   <th width="10%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr *ngIf="all_tickets?.length === 0">
+                                    <td colspan="7">There is no Ticket right now</td>
+                                 </tr>
+                                 <tr *ngFor="let ticket of all_tickets">
+                                     <td>{{ticket.id}}</td>
+                                     <td>
+                                         <span *ngIf="ticket.status; else Close">Open</span>
+                                         <ng-template #Close>Close</ng-template>
+                                     </td>
+                                     <td>{{ticket.openDate | date: 'yyyy-MM-dd Hh:mm'}}</td>
+                                     <td>{{ticket.description}}</td>
+                                     <td>{{ticket.guest.userName}}</td>
+                                     <td>
+                                         {{ticket.product.name}}
+                                     </td>
+                                     <td>
+                                         <button type="button" class="btnico explore"  routerLink="/user/ticket/exploreTicket" [queryParams]="{id : ticket.id}" ><i class="fas fa-expand-alt"></i></button>
+                                         <button type="button" (click)="deleteTicket(ticket.id)" class="btnico delete"><i class="fas fa-trash-alt"></i></button>
+                                     </td>
+                                 </tr>
+                            </tbody>                   
+                       </table>
+                    </div>
+                   </div>
+                </ng-template>
+            </div>
+     </div>
+</div>
+

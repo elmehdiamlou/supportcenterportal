@@ -1,0 +1,16 @@
+<div class="sidebar">
+    <header>Support <br> Center Portal</header>
+        <ul>
+           <li><a class="martop"  routerLink="/user/ticket" routerLinkActive="active"><i class="fas fa-qrcode"></i> Tickets</a></li>
+           <li><a routerLink="/user/product" routerLinkActive="active"><i class="fas fa-box"></i> Products</a></li>
+           <li *ngIf="user_role === 'Admin'" ><a routerLinkActive="active" routerLink="/user/management"><i class="fas fa-user-cog"></i> User management</a></li>
+           <li><a class="martop logout" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+</div>
+<div class="profilebar">
+     <div class="profile">
+         <span id="role">{{user_role}}</span>
+         <span> - </span>
+         <span id="name">{{username}}</span>
+     </div> 
+</div>

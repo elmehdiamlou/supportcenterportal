@@ -1,0 +1,72 @@
+<h2>Explore ticket</h2>
+            <div *ngIf="loading; else Content" class="boxSpinner">
+                <span class="spinner"></span>
+            </div>
+        <ng-template #Content>
+            <div class="content">
+                <form [formGroup]="ticketForm" class="newticket-div" >
+                    <div class="span">
+                        Id Ticket
+                    </div>
+                    <div>
+                        <input formControlName="ticketId" type="text" class="input-style">
+                    </div>
+                    <div class="span">
+                        Status
+                    </div>
+                    <div>
+                        <select *ngIf="userRole === 'Technician'"[(ngModel)] = "ticketStatus" [ngModelOptions]="{standalone: true}" 
+                                       name="ticketStatus" class="input-style">
+                            <option disabled selected>Select Status</option>
+                            <option value="open" >Open</option>
+                            <option value="close" >Close</option>
+                        </select>
+                        <input formControlName="status" type="text" class="input-style">
+                    </div>
+                    <div class="span">
+                        Open date
+                    </div>
+                    <div>
+                        <input formControlName="openDate" type="text" class="input-style"> 
+                    </div>
+                    <div class="span">
+                        Product Name
+                    </div>
+                    <div>
+                        <input formControlName="productName" type="text" class="input-style">
+                    </div>
+                    <div class="span">
+                        Ticket Description
+                    </div>
+                    <div>
+                        <textarea formControlName="description" type="text" class="textarea-style"></textarea>
+                    </div>
+                    <div class="span">
+                        Chat
+                    </div>
+                    <div class="chat-div">
+                        <div  rows="10" class="boxChat" type="text" >
+                            <ul>
+                                <li style="width:100%;display: flex;justify-content: center;align-items: center;" 
+                                        *ngIf="messages?.length === 0">
+                                    <span style="font-size: 1.2rem; color: #111;">Empty Chat</span>
+                                </li>
+                                <li *ngFor="let message of messages">
+                                    <h5>{{message.sender.userName}}</h5>
+                                    <p>{{message.content}}</p>
+                                    <span>{{message.createdOn | date: 'yyyy-MM-dd HH:mm'}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <input [disabled]="isDisable" name="messageText" [(ngModel)] = "messageText" #msg="ngModel" required
+                               [ngModelOptions]="{standalone: true}" class="inputchat-style"
+                                type="text" placeholder="type a message here, must be not empty" [ngStyle]="{'border':!msg.valid?'0.5px solid red':'0.5 solid #afc9cd'}">
+                        <button [disabled]="isDisable || !msg.valid" (click)="sendMessage()" class="btnsent">
+                            <a>Sent <i class="fas fa-paper-plane"></i></a>
+                        </button>
+                    </div>
+                    <input type="button" *ngIf="userRole === 'Technician'" (click)="changeTicketStatus()" class="btn2 btnsave" value="Change">
+                    <input type="button" class="btn2 btncancel" routerLink="/user/ticket/listTicket" value="Close">
+                </form>
+            </div>
+        </ng-template>

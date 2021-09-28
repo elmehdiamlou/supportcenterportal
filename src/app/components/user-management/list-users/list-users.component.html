@@ -1,0 +1,40 @@
+<div class="head">
+  <button routerLink="/user/management/addUser" type="button" class="btn">
+      <i class="fas fa-plus"></i> 
+      Add New
+  </button>
+<div>
+<table>
+  <thead>
+      <tr>
+        <th width="14%">UserAccountId</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th width="14%">Action</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let user of users">
+          <td>{{user.id}}</td>
+          <td>{{user.firstName}}</td>
+          <td>{{user.lastName}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.phone}}</td>
+          <td>
+            <button routerLink="/user/management/editUser/{{user.id}}" type="button" class="btnico edit">
+              <i class="fas fa-pen"></i>
+            </button>
+            <button type="button" class="btnico delete" (click)="deleteUser(user.id)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+      </tr>
+      <tr *ngIf="users && users.lenght == 0">
+        <td colspan="6">No users found</td>
+      </tr>
+  </tbody>
+</table> 
+</div>
+</div>

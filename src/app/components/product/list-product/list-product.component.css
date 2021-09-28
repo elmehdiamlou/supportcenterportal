@@ -1,0 +1,293 @@
+.btn {
+  user-select: none;
+  width: 120px;
+  height: 32px;
+  margin: 10px 10px;
+  font-size: 16px;
+  background-color: #008000;
+  color: #fafafa;
+  border-radius: 25px;
+  cursor: pointer;
+  border-style: none;
+}
+
+.btn:hover {
+  background-color: #006600;
+}
+
+.div-style {
+  width: 65%;
+  transform: translateX(25%);
+}
+
+.input-search {
+  position: absolute;
+  width: 22%;
+  top: 2;
+  left: auto;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 15px;
+  color: #08252d;
+}
+
+.input-style {
+  font-family: 'Rubik', sans-serif;
+  width: 100%;
+  font-size: 15px;
+  height: 40px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 0.5px solid #afc9cd;
+}
+
+.textarea-style {
+  font-family: 'Rubik', sans-serif;
+  width: 100%;
+  font-size: 15px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 0.5px solid #afc9cd;
+}
+
+.input-div {
+  float: right;
+  display: grid;
+  width: 25%;
+  grid-template-columns: 10% 80%;
+  border-bottom: 2px solid #08252d;
+  margin: 25px 20px;
+  padding-bottom: 2px;
+}
+
+.icon {
+  padding-left: 5px;
+}
+
+.input-search {
+  position: absolute;
+  width: 22%;
+  top: 2;
+  left: auto;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 15px;
+  color: #08252d;
+}
+
+.input-div {
+  float: right;
+  width: 25%;
+  display: grid;
+  grid-template-columns: 10% 80%;
+  border-bottom: 2px solid #08252d;
+  margin: 25px 20px;
+  padding-bottom: 2px;
+}
+
+.icon {
+  padding-left: 5px;
+}
+
+h2 {
+  font-family: 'Rubik', sans-serif;
+  user-select: none;
+  font-size: 24px;
+  color: #08252d;
+  line-height: 70px;
+  margin: 0 20px;
+}
+
+table,
+td,
+th {
+  background-color: #e7e7e7;
+  font-size: 15px;
+  line-height: 40px;
+  text-align: center;
+}
+
+tr>th {
+  border-bottom: 0.4px solid rgba(8, 37, 45, .1);
+  font-weight: bold;
+}
+
+tr>td {
+  border-top: 0.4px solid rgba(8, 37, 45, .1);
+}
+
+table {
+  width: 100%;
+  border-spacing: 0
+}
+
+.btnico {
+  user-select: none;
+  width: 32px;
+  height: 23px;
+  background-color: #fafafa;
+  border-style: none;
+  cursor: pointer;
+  font-family: 'Rubik', sans-serif;
+}
+
+.edit,
+.explore {
+  color: royalblue;
+}
+
+.delete {
+  color: red;
+}
+
+.btnico:hover {
+  color: #fafafa;
+}
+
+.assign:hover {
+  background-color: green;
+}
+
+.edit:hover,
+.explore:hover {
+  background-color: royalblue;
+}
+
+.delete:hover {
+  background-color: red;
+}
+/* Spinner */
+.boxSpinner {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  border: 5px solid #f3f2f2;
+  border-top: 5px solid #17a2b8;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Delete Cart */
+.cart {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -1;
+}
+
+.cart.show {
+  z-index: 10000 !important;
+}
+
+.cart .content {
+  width: 24rem;
+  height: 10rem;
+  background: #ddd;
+  border: none;
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.32);
+  transform: translateY(-110%);
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+}
+
+.cart .content.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.cart .content h4 {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: 'Rubik', sans-serif;
+  color: #111;
+}
+
+.cart .content .buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: .5rem 0;
+  padding: 1rem;
+}
+
+.cart .content .buttons button {
+  width: 6rem;
+  height: 2.5rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #fff;
+  font-family: 'Rubik', sans-serif;
+  border: none;
+  border-radius: .5rem;
+  transition: 0.25s ease-in-out;
+}
+
+.cart .content .buttons .confirmBtn {
+  background: rgb(226, 98, 124);
+}
+
+.cart .content .buttons .confirmBtn:hover {
+  background: crimson;
+}
+
+.cart .content .buttons .cancelBtn {
+  background: #9bd1da;
+}
+
+.cart .content .buttons .cancelBtn:hover {
+  background: #2f7d8d;
+}
+
+/* Message */
+.box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box .message {
+  font-size: 1rem;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background: #dbdbdb;
+  border-radius: .5rem;
+  transform: translateX(110%);
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+}
+
+.box .message.active {
+  transform: translateX(0);
+  opacity: 1;
+}

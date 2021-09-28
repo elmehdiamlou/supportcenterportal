@@ -1,0 +1,41 @@
+<div class="mainbar">
+            <div class="box">
+                <h2>Edit Product</h2>
+                <div *ngIf="message != null" class="message">
+                    <h4 [ngStyle]="{'color':msgColor}">{{message}}</h4>
+                </div>
+            </div>
+            <div class="content">
+                <div *ngIf="loading ; else ProductForm" class="boxSpinner">
+                    <span class="spinner"></span>
+                </div>
+                <ng-template #ProductForm>
+                    <form class="div-style" [formGroup]="productForm" (ngSubmit)="onEditProduct()" >
+                    <div >
+                        <input formControlName="id"  class="input-style"  type="hidden">
+                    </div>
+                    <div class="span">
+                        Name
+                    </div>
+                    <div>
+                        <input formControlName="name"  class="input-style" type="text">
+                    </div>
+                    <div class="span">
+                        Description
+                    </div>
+                    <div>
+                        <textarea formControlName="description"  rows="10" class="textarea-style" type="text" placeholder="Give it a short description"></textarea>
+                    </div>
+                    <div class="span">
+                        Category
+                    </div>
+                    <div>
+                        <input formControlName="category" class="input-style" type="text">
+                    </div>
+                    <input type="submit" class="btn2 btnsave" value="Update">
+                    <input type="button" class="btn2 btncancel" routerLink="/user/product/listProduct" value="Cancel">
+                    
+                </form>
+                </ng-template>
+            </div>
+        </div>

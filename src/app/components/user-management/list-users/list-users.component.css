@@ -1,0 +1,92 @@
+.btn {
+    user-select: none;
+    width: 120px;
+    height: 32px;
+    margin: 10px 10px;
+    font-size: 16px;
+    background-color: #008000;
+    color: #fafafa;
+    border-radius: 25px;
+    cursor: pointer;
+    border-style: none;
+  }
+  
+  .btn:hover {
+    background-color: #006600;
+  }
+  
+  .input-style {
+    font-family: 'Rubik', sans-serif;
+    width: 100%;
+    font-size: 15px;
+    height: 40px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 0.5px solid #afc9cd;
+  }
+  
+  
+  table,
+  td,
+  th {
+    background-color: #e7e7e7;
+    font-size: 15px;
+    line-height: 40px;
+    text-align: center;
+  }
+  
+  tr>th {
+    border-bottom: 0.4px solid rgba(8, 37, 45, .1);
+    font-weight: bold;
+  }
+  
+  tr>td {
+    border-top: 0.4px solid rgba(8, 37, 45, .1);
+  }
+  
+  table {
+    width: 100%;
+    border-spacing: 0
+  }
+  
+  .btnico {
+    user-select: none;
+    width: 32px;
+    height: 23px;
+    background-color: #fafafa;
+    border-style: none;
+    cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+  }
+  
+  .edit{
+    color: royalblue;
+  }
+  
+  .delete {
+    color: red;
+  }
+  .btnico:hover {
+    color: #fafafa;
+  }
+  
+  .edit:hover{
+    background-color: royalblue;
+  }
+  
+  .delete:hover {
+    background-color: red;
+  }
+  
+  .inputchat-style {
+    font-family: 'Rubik', sans-serif;
+    width: 85%;
+    margin-left: 1%;
+    font-size: 15px;
+    height: 40px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 0.5px solid #afc9cd;
+  }
