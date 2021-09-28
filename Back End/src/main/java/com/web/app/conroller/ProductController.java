@@ -42,7 +42,6 @@ public class ProductController {
 	@Autowired
 	private JwtUtils jwtUtils;
 	
-	/* Getting All Products */
 	@GetMapping(value="/all")
 	public ResponseEntity<List<Product>> getAllProducts(@RequestHeader("Authorization") String token){
 		try {
@@ -54,8 +53,6 @@ public class ProductController {
 		}
 	}
 	
-	
-	/* Add new Product By administrator */
 	@PostMapping(value="/add")
 	public ResponseEntity<Product> addNewProduct(@RequestHeader("Authorization") String token, @RequestBody Product product){
 		try {
@@ -69,7 +66,6 @@ public class ProductController {
 		}
 	}
 	
-	/* Edit Product */
 	@PostMapping(value="/edit")
 	public ResponseEntity<Product> editProduct(@RequestHeader("Authorization") String token, @RequestBody Product product){
 		try {
@@ -86,7 +82,6 @@ public class ProductController {
 		}
 	}
 
-	/* get Product */
 	@GetMapping(value="/get")
 	public ResponseEntity<Product> getProduct(@RequestHeader("Authorization") String token, @RequestParam("productId") String id){
 		try {
@@ -98,7 +93,6 @@ public class ProductController {
 		}
 	}
 	
-	/* Delete Product */
 	@DeleteMapping(value="/delete")
 	public ResponseEntity<?> deleteProduct(@RequestHeader("Authorization") String token, @RequestParam("productId") Long productId){
 		try {
