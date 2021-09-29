@@ -81,7 +81,6 @@ export class TicketServiceService {
    }
 
    assignOrUnassignTicketToTech(id: number){
-     //const headers = new HttpHeaders({'Authorization': this.token});
      const params = new HttpParams().set('token', this.token)
      return this.http.get<any>(`${environment.baseUrl}/api/ticket/assign/${id}`, {'params': params})
                           .pipe(
