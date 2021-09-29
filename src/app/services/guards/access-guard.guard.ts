@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {  CanActivate } from '@angular/router';
+import { CanActivate } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -11,18 +12,18 @@ export class AccessGuardGuard implements CanActivate {
 
   token = localStorage.getItem("token");
   constructor(private authService: AuthService, private http: HttpClient){}
-  response!: boolean;
 
-  canActivate(): boolean{  
-    const headers = { 'Authorization': this.token!};
+  canActivate(): Observable<boolean>{  
+    const headers = { 'Authorization': this.token!};  
+    var response = new Subject<boolean>();
     this.http.get<any>(`${environment.baseUrl}/api/management/role`, {headers}).subscribe( data => {
       if(this.token != null && data['message'] == 'Admin'){
-        this.response = true;
-      } else {        
+        response.next(true);
+      } else {               
         this.authService.logout();
-        this.response = false;        
+        response.next(false);
       }    
     })
-   return this.response;
+   return response.asObservable();
  }
 }
