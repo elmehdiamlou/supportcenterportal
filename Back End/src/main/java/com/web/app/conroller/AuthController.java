@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.app.entity.ERole;
-import com.web.app.entity.Role;
 import com.web.app.entity.User;
 import com.web.app.payload.request.LoginRequest;
 import com.web.app.payload.request.SignupRequest;
@@ -36,6 +36,7 @@ import com.web.app.service.UserService;
 @RequestMapping(value="/api/auth")
 public class AuthController {
 
+	
 	@Autowired
 	private JwtUtils jwtUtils;
 	
@@ -53,21 +54,31 @@ public class AuthController {
 	
 	@PostMapping(value="/login")
 	public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception{
+		
+		
 			try {
+			
 			Authentication auth = 
 			        authenticationManager.authenticate(
 			            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
 			        );
+
 			SecurityContextHolder.getContext().setAuthentication(auth);
+			
 			String jwt = this.jwtUtils.generateJwtToken(auth);
+			
 			MyUserDetails myUserDetails = (MyUserDetails) auth.getPrincipal();
+			
 			List<String> roles = myUserDetails.getAuthorities().stream()
 					                 .map(item -> item.getAuthority())
 					                 .collect(Collectors.toList());
+			
 			return ResponseEntity.ok(new JwtResponse(jwt,myUserDetails.getUsername() ,roles));
+			
 			}catch(Exception e) {
 				throw new Exception("Inavalid username or password");
 			}
+			
 	}
 	
 	@PostMapping(value="/register", consumes = MimeTypeUtils.APPLICATION_JSON_VALUE,
@@ -83,32 +94,18 @@ public class AuthController {
 					.badRequest()
 					.body(new MessageResponse("User is already registered with this email !"));
 		}
+		
 		User user = new User(signupRequest.getFirstname(), 
 				             signupRequest.getLastname(), 
 				             signupRequest.getUsername(), 
 				             signupRequest.getEmail(),
 				             signupRequest.getPhone(),
 				             this.passwordEncode.encode(signupRequest.getPassword()));
-		String strRole = signupRequest.getRole();
-		Role role;
-		if (strRole == null) {
-			role = this.roleRepo.findByName(ERole.Guest);
-		} else {
-			switch (strRole) {
-			case "Admin":
-				role = this.roleRepo.findByName(ERole.Admin);
-				break;
 
-			case "Technician":
-				role = this.roleRepo.findByName(ERole.Technician);
-				break;
-
-			default:
-				role = this.roleRepo.findByName(ERole.Guest);
-			}
-		}
-		user.setRole(role);
+		user.setRole(this.roleRepo.findByName(ERole.Guest));
 		this.userService.addUser(user);
+		
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
+	
 }
