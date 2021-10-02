@@ -35,7 +35,6 @@ export class AddTicketComponent implements OnInit {
     })
   }
  
-  /* Add a new Ticket by existing guest */
   onAddTicket(){
     this.loading = true;
     const msgBox = document.querySelector('.message');
@@ -57,9 +56,4 @@ export class AddTicketComponent implements OnInit {
       }
     )
   }
-
-
-
-
-
 }

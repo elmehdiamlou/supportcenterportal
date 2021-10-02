@@ -21,7 +21,6 @@ export class ListProductComponent implements OnInit {
     this.allProducts();
   }
 
-  /* Show All Products */
   allProducts(){
     this.loading = true;
     this.productService.getAllProducts().subscribe(
@@ -36,7 +35,6 @@ export class ListProductComponent implements OnInit {
     )
   }
 
-   /*show delete ticket cart*/
     deleteProduct(id: number){
       const deleteBtn = document.querySelector('.content');
       const cart = document.querySelector('.cart');
@@ -45,14 +43,13 @@ export class ListProductComponent implements OnInit {
       this.productId = id;
     }
 
-    /*Cancel Delete Cart */
     cancelDeleteCart(){
       const deleteBtn = document.querySelector('.content');
       const cart = document.querySelector('.cart');
       cart?.classList.remove('show');
       deleteBtn?.classList.remove('active');
     }
-  /* Delete Product */
+
   deleteProductById(){
     this.productService.deleteProductById(this.productId).subscribe(
       response =>{
@@ -67,22 +64,20 @@ export class ListProductComponent implements OnInit {
     )
   }
 
-  /* Filtering Table */
-      searchProduct(key: any):void{
-      const result = [];
-      for(const product of this.products){
-        if(product.id.toString().indexOf(key.toString()) !== -1 ||
-           product.name.toLowerCase().indexOf(key.toLowerCase()) !== -1 || 
-           product.description.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-           product.category.toLowerCase().indexOf(key.toLowerCase()) !== -1){
-             result.push(product);
-        }
-      }
-      this.products = result;
-      if(result.length === 0 || !key){
-        this.allProducts();
+    searchProduct(key: any):void{
+    const result = [];
+    for(const product of this.products){
+      if(product.id.toString().indexOf(key.toString()) !== -1 ||
+         product.name.toLowerCase().indexOf(key.toLowerCase()) !== -1 || 
+         product.description.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+         product.category.toLowerCase().indexOf(key.toLowerCase()) !== -1){
+           result.push(product);
       }
     }
-
+    this.products = result;
+    if(result.length === 0 || !key){
+      this.allProducts();
+    }
+  }
 
 }

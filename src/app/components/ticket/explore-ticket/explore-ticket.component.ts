@@ -64,7 +64,6 @@ export class ExploreTicketComponent implements OnInit {
     )
   }
   
-  /* Change Value of Ticket */
   changeTicketStatus(){
     console.log(this.ticketStatus);
     this.ticketService.changeTicketStatus(this.ticketStatus, this.ticketId).subscribe(
@@ -77,7 +76,6 @@ export class ExploreTicketComponent implements OnInit {
     )
   }
 
-  /* Sending Message By Current User */
   sendMessage(){
       this.ticketService.sendMsg(this.messageText, this.ticketId).subscribe(res=>{
       this.messageText = '';
@@ -87,8 +85,5 @@ export class ExploreTicketComponent implements OnInit {
       console.log("SomeThing went Wrong.")
       }
      )
-    
   }
-
-
 }

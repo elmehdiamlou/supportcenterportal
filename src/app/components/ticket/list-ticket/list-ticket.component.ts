@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TicketServiceService } from '../ticket-service.service';
 
-
-
-
 @Component({
   selector: 'app-list-ticket',
   templateUrl: './list-ticket.component.html',
@@ -35,8 +32,6 @@ export class ListTicketComponent implements OnInit {
     this.allTickets();
   }
 
-  /* ================ Guest User ====================*/
-  /* Getting tickets of existing guest */
   allGuestTickets(){
     this.loading = true;
     this.ticketService.getGuestTickets().subscribe(
@@ -48,7 +43,6 @@ export class ListTicketComponent implements OnInit {
         console.log("There is no ticket  here !!!");
       })}
 
-    /*filtering table with status*/
     searchTicket(key: string):void{
       const result = [];
       let tickets = [];
@@ -98,7 +92,6 @@ export class ListTicketComponent implements OnInit {
       }
     }
 
-    /*show delete ticket cart*/
     deleteTicket(id: number){
       const deleteBtn = document.querySelector('.content');
       const cart = document.querySelector('.cart');
@@ -107,7 +100,6 @@ export class ListTicketComponent implements OnInit {
       this.ticketId = id;
     }
 
-    /*Cancel Delete Cart */
     cancelDeleteCart(){
       const deleteBtn = document.querySelector('.content');
       const cart = document.querySelector('.cart');
@@ -115,7 +107,6 @@ export class ListTicketComponent implements OnInit {
       deleteBtn?.classList.remove('active');
     }
 
-    /* Delete Ticket Cart By Id */
     deleteTicketById(){
       const msgBox = document.querySelector('#message1');
       this.ticketService.deleteTicket(this.ticketId).subscribe(
@@ -140,10 +131,6 @@ export class ListTicketComponent implements OnInit {
       )
     }
 
-
-    /*=================== Technician User====================*/
-    
-    /*Getting no assign tickets for existing technician */
     allUnAssignTickets(){
       this.loading= true;
       this.ticketService.getUnAssignTickets().subscribe(
@@ -173,7 +160,6 @@ export class ListTicketComponent implements OnInit {
       )
     }
 
-    /* Assigned Or Unassign ticket to current technician */
     assignOrUnassignTicket(id: number){
       const msgBox = document.querySelector('#message2');
       this.ticketService.assignOrUnassignTicketToTech(id).subscribe(
@@ -194,9 +180,6 @@ export class ListTicketComponent implements OnInit {
       )
     }
 
-
-  /* ================ Guest User ====================*/
-  /* Getting ALl Tickets */
   allTickets(){
     this.loading = true;
     this.ticketService.getAllTickets().subscribe(
@@ -210,7 +193,4 @@ export class ListTicketComponent implements OnInit {
       }
     )
   } 
-
-
- 
 }
