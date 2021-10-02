@@ -13,6 +13,9 @@ export class TicketServiceService {
 
   constructor(private http: HttpClient) { }
 
+
+  /* ==========================Guest Methods============================ */
+
    getGuestTickets(){
   
     return this.http.get<any>(`${environment.baseUrl}/api/ticket/all`, {params: new HttpParams().set('authorization', this.token)});
@@ -64,6 +67,8 @@ export class TicketServiceService {
                         )
   }
 
+   /* =========================Technician Methods====================== */
+
    getUnAssignTickets(){
     const headers = {'Authorization': this.token};
     return this.http.get<any>(`${environment.baseUrl}/api/ticket/unassignTickets`, {headers});
@@ -81,6 +86,7 @@ export class TicketServiceService {
    }
 
    assignOrUnassignTicketToTech(id: number){
+     //const headers = new HttpHeaders({'Authorization': this.token});
      const params = new HttpParams().set('token', this.token)
      return this.http.get<any>(`${environment.baseUrl}/api/ticket/assign/${id}`, {'params': params})
                           .pipe(
@@ -102,6 +108,7 @@ export class TicketServiceService {
                           );
    }
 
+   /* =========================Admin Part=========================== */
    getAllTickets(){
      const headers = { 'Authorization': this.token};
      return this.http.get(`${environment.baseUrl}/api/ticket/allTickets`,{headers});

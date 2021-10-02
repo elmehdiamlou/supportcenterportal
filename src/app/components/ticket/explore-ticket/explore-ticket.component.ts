@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import { TicketServiceService } from '../ticket-service.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-explore-ticket',
@@ -20,7 +21,7 @@ export class ExploreTicketComponent implements OnInit {
   ticketStatus !: string;
   loading : boolean = false;
  
-  constructor(private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,private authService: AuthService,
               private ticketService: TicketServiceService) {
                 this.ticketForm = new FormBuilder().group({
                   ticketId:[{value: '', disabled:true}],
@@ -47,23 +48,21 @@ export class ExploreTicketComponent implements OnInit {
     this.ticketService.getTicketById(this.ticketId).subscribe(
       data =>{
         this.loading = false;
-        console.log(data);
         this.ticketForm.controls['ticketId'].setValue(data.id);
         this.ticketForm.controls['status'].setValue(data.status);
         this.ticketForm.controls['openDate'].setValue(data.openDate);
         this.ticketForm.controls['description'].setValue(data.description);  
-        this.ticketForm.controls['productName'].setValue(data.productName);  
+        this.ticketForm.controls['productName'].setValue(data.productName !== 'Was deleted'?data.productName:'Was deleted');  
         this.messages = data.messages;  
         this.isDisable = data.status === 'Close'?true:false;
-        console.log(`=====> ${this.isDisable}`);
       },
       error =>{
         this.loading = false;
-        console.log(error.error.message);
       }
     )
   }
   
+  /* Change Value of Ticket */
   changeTicketStatus(){
     console.log(this.ticketStatus);
     this.ticketService.changeTicketStatus(this.ticketStatus, this.ticketId).subscribe(
@@ -71,19 +70,23 @@ export class ExploreTicketComponent implements OnInit {
         this.getTicket();
       },
       error =>{
-        console.log("Operation Failed Status Doesn't Change It.")
+        this.getTicket();
       }
     )
   }
 
+  /* Sending Message By Current User */
   sendMessage(){
       this.ticketService.sendMsg(this.messageText, this.ticketId).subscribe(res=>{
       this.messageText = '';
       this.getTicket();
      },
      error=>{
-      console.log("SomeThing went Wrong.")
+        this.getTicket();
       }
      )
+    
   }
+
+
 }

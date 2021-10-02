@@ -1,4 +1,14 @@
 <div class="head">
+    <!--Confirmation Model to delete-->
+    <div class="cart">
+      <div class="content" id="confirmCart">
+        <h4>{{message}}</h4>
+        <div class="buttons">
+            <button (click)="confirmDelete()" class="confirmBtn">Delete</button>
+            <button (click)="cancelDelete()" class="cancelBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
   <button routerLink="/user/management/addUser" type="button" class="btn">
       <i class="fas fa-plus"></i> 
       Add New
@@ -31,7 +41,7 @@
             </button>
           </td>
       </tr>
-      <tr *ngIf="users && users.lenght == 0">
+      <tr *ngIf="users && users.length == 0">
         <td colspan="6">No users found</td>
       </tr>
   </tbody>

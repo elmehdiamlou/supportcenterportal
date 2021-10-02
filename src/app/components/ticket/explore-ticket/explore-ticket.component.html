@@ -58,10 +58,11 @@
                                 </li>
                             </ul>
                         </div>
-                        <input [disabled]="isDisable" name="messageText" [(ngModel)] = "messageText" #msg="ngModel" required
+                        <input  [disabled]="isDisable || userRole === 'Admin'" name="messageText" [(ngModel)] = "messageText" #msg="ngModel" required
                                [ngModelOptions]="{standalone: true}" class="inputchat-style"
-                                type="text" placeholder="type a message here, must be not empty" [ngStyle]="{'border':!msg.valid?'0.5px solid red':'0.5 solid #afc9cd'}">
-                        <button [disabled]="isDisable || !msg.valid" (click)="sendMessage()" class="btnsent">
+                                type="text" placeholder="type a message here, must be not empty">
+
+                        <button   [disabled]="isDisable || !msg.valid || userRole === 'Admin'" (click)="sendMessage()" class="btnsent">
                             <a>Sent <i class="fas fa-paper-plane"></i></a>
                         </button>
                     </div>

@@ -17,7 +17,7 @@
 </button>
 <div class="input-div">
     <div class="icon">
-       <i class="fas fa-search"></i>
+       <i  class="fas fa-search"></i>
     </div>
     <div>
        <input class="input-search" name="key" (ngModelChange)="searchTicket(key.value)"  #key="ngModel" ngModel  type="text" placeholder="Search ...">
@@ -25,7 +25,7 @@
 </div>
 <div>
     <div class="box">
-    <h2>All Tickets</h2>
+    <h2>All Tickets: </h2>
     <div *ngIf="message != null" class="message" id="message1">
         <h4 [ngStyle]="{'color':msgColor}">{{message.message}}</h4>
     </div>
@@ -62,7 +62,10 @@
                         <td>{{ticket.openDate | date: 'yyyy-MM-dd HH:mm'}}</td>
                         <td>{{ticket.description}}</td>
                         <td>
-                            {{ticket.product?.name}}
+                            <span *ngIf="ticket.product !== null; else Noproduct">
+                                {{ticket.product?.name}}
+                            </span>
+                            <ng-template style="color:red;" #Noproduct>Was deleted</ng-template>
                         </td>
                         <td>
                             <button type="button" class="btnico explore"  routerLink="/user/ticket/exploreTicket" [queryParams]="{id : ticket.id}"><i class="fas fa-expand-alt"></i></button>
@@ -123,7 +126,10 @@
                         <td>{{ticket.description}}</td>
                         <td>{{ticket.guest.userName}}</td>
                         <td>
-                            {{ticket.product.name}}
+                            <span *ngIf="ticket.product !== null; else Noproduct">
+                                {{ticket.product?.name}}
+                            </span>
+                            <ng-template style="color:red;" #Noproduct>Was deleted</ng-template>
                         </td>
                         <td>
                             <button type="button" (click)="assignOrUnassignTicket(ticket.id)" class="btnico assign">
@@ -180,7 +186,10 @@
                         <td>{{ticket.description}}</td>
                         <td>{{ticket.guest.userName}}</td>
                         <td>
-                            {{ticket.product.name}}  
+                            <span *ngIf="ticket.product !== null; else Noproduct">
+                                {{ticket.product?.name}}
+                            </span>
+                            <ng-template style="color:red;" #Noproduct>Was deleted</ng-template>
                         </td>
                         <td>
                             <button type="button" class="btnico edit"  routerLink="/user/ticket/exploreTicket" [queryParams]="{id : ticket.id}"><i class="fas fa-pen"></i></button>
@@ -240,11 +249,14 @@
                                          <span *ngIf="ticket.status; else Close">Open</span>
                                          <ng-template #Close>Close</ng-template>
                                      </td>
-                                     <td>{{ticket.openDate | date: 'yyyy-MM-dd Hh:mm'}}</td>
+                                     <td>{{ticket.openDate | date: 'yyyy-MM-dd HH:mm'}}</td>
                                      <td>{{ticket.description}}</td>
                                      <td>{{ticket.guest.userName}}</td>
                                      <td>
-                                         {{ticket.product.name}}
+                                         <span *ngIf="ticket.product !== null; else Noproduct">
+                                                {{ticket.product?.name}}
+                                         </span>
+                                         <ng-template style="color:Red;" #Noproduct>Was deleted</ng-template>
                                      </td>
                                      <td>
                                          <button type="button" class="btnico explore"  routerLink="/user/ticket/exploreTicket" [queryParams]="{id : ticket.id}" ><i class="fas fa-expand-alt"></i></button>

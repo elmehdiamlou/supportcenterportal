@@ -11,19 +11,19 @@
                         Name
                     </div>
                     <div>
-                        <input formControlName="name" class="input-style" type="text">
+                        <input formControlName="name" class="input-style" type="text" [ngStyle]="{'border': f.name.errors ? '0.5px solid red' : '0.5px solid #afc9cd'}">
                     </div>
                     <div class="span">
                         Description
                     </div>
                     <div>
-                        <textarea  formControlName="description" rows="10" class="textarea-style" type="text" placeholder="Give it a short description"></textarea>
+                        <textarea  formControlName="description" rows="10" class="textarea-style" type="text" placeholder="Give it a short description" [ngStyle]="{'border': f.description.errors ? '0.5px solid red' : '0.5px solid #afc9cd'}"></textarea>
                     </div>
                     <div class="span">
                         Category
                     </div>
                     <div>
-                        <input formControlName="category" class="input-style" type="text">
+                        <input formControlName="category" class="input-style" type="text"[ngStyle]="{'border': f.category.errors ? '0.5px solid red' : '0.5px solid #afc9cd'}">
                     </div>
                     <div  class="boxx">
                         <div  class="boxSpinner">

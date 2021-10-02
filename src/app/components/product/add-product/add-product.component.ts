@@ -25,7 +25,12 @@ export class AddProductComponent implements OnInit {
     })
   }
 
+  get f(){ return this.productForm.controls;}
+  
   onAddProduct(){
+    if(this.productForm.invalid){
+      return;
+    }
     this.loading = true;
     const msgBox = document.querySelector('.message');
     this.productService.addProduct(this.productForm.value).subscribe(

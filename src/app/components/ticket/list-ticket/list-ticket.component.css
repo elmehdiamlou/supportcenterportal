@@ -289,3 +289,17 @@ tr>td {
     transform: rotate(360deg);
   }
 }
+
+/* Refresh Icon*/
+.fa-sync-alt{
+  color: #17a2b8;
+  font-size: 1.3rem;
+}
+.fa-sync-alt:hover {
+  color: #2f7d8d;
+}
+
+.fa-sync-alt.active {
+  animation: spin 2.5s linear infinite;
+}
+

@@ -35,6 +35,7 @@ export class EditProductComponent implements OnInit {
     this.getProduct();
   }
 
+  /* show Product in Edit Form */
   getProduct(){
     this.loading = true;
     this.route.queryParams.subscribe(
@@ -52,10 +53,10 @@ export class EditProductComponent implements OnInit {
       },
       error =>{
         this.loading =false;
-        console.log(`There is no product with this email ${this.productId}`);
       }
     )
   }
+
 
   onEditProduct(){
     this.loading = true;

@@ -13,11 +13,9 @@ import { ListTicketComponent } from './ticket/list-ticket/list-ticket.component'
 import { ListProductComponent } from './product/list-product/list-product.component';
 import { AddProductComponent } from './product/add-product/add-product.component';
 import { EditProductComponent } from './product/edit-product/edit-product.component';
-import { ListUsersComponent } from './user-management/list-users/list-users.component';
 import { AddUserComponent } from './user-management/add-user/add-user.component';
 import { EditUserComponent } from './user-management/edit-user/edit-user.component';
-
-
+import { ListUsersComponent } from './user-management/list-users/list-users.component';
 
 @NgModule({
   declarations: [

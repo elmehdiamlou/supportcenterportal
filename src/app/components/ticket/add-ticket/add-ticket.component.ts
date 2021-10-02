@@ -29,12 +29,10 @@ export class AddTicketComponent implements OnInit {
       message: [null]
     })
 
-    this.productService.getAllProducts().subscribe(res=>{
-      this.products = res;
-      console.log(res); 
-    })
+    this.productService.getAllProducts().subscribe(res=>{this.products = res;})
   }
  
+  /* Add a new Ticket by existing guest */
   onAddTicket(){
     this.loading = true;
     const msgBox = document.querySelector('.message');
@@ -56,4 +54,9 @@ export class AddTicketComponent implements OnInit {
       }
     )
   }
+
+
+
+
+
 }

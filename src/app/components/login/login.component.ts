@@ -49,9 +49,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/user/ticket'])
       },
       error =>{
-        this.loading = false
-        this.error = error.error.message;
-        
+        this.loading = false;  
       }
     )
   }

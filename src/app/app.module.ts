@@ -8,10 +8,9 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthService } from './services/auth.service';
 import { AuthGuardGuard } from './services/guards/auth-guard.guard';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule} from '@angular/common/http';
 import { TicketServiceService } from './components/ticket/ticket-service.service';
 import { AccessGuardGuard } from './services/guards/access-guard.guard';
-
 
 @NgModule({
   declarations: [

@@ -8,7 +8,6 @@ import { AuthService } from 'src/app/services/auth.service';
 export class AuthGuardGuard implements CanActivate {
   constructor(private router: Router, private authService: AuthService){}
  
-  role = localStorage.getItem('role');
   jwtToken = localStorage.getItem('token');
 
   canActivate(

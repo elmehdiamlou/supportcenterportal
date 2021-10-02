@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { TicketServiceService } from '../ticket-service.service';
+
+
+
 
 @Component({
   selector: 'app-list-ticket',
   templateUrl: './list-ticket.component.html',
   styleUrls: ['./list-ticket.component.css']
 })
-export class ListTicketComponent implements OnInit {
+export class ListTicketComponent implements OnInit{
 
   user_role: any  = localStorage.getItem('role');
+  
 
-  guest_tickets : any = [];
+  guest_tickets : any[] = [];
   ticketId !: number;
 
   tech_unassign_tickets : any = [] ;
@@ -22,9 +27,9 @@ export class ListTicketComponent implements OnInit {
   msgColor !: string;
   loading : boolean = false;
 
-  constructor(private ticketService: TicketServiceService) { }
+  constructor(private ticketService: TicketServiceService, private authService : AuthService) { }
 
-  ngOnInit(): void {
+  ngOnInit(){
     this.user_role;
     this.allGuestTickets();
     this.allUnAssignTickets();
@@ -32,6 +37,8 @@ export class ListTicketComponent implements OnInit {
     this.allTickets();
   }
 
+  /* ================ Guest User ====================*/
+  /* Getting tickets of existing guest */
   allGuestTickets(){
     this.loading = true;
     this.ticketService.getGuestTickets().subscribe(
@@ -40,9 +47,81 @@ export class ListTicketComponent implements OnInit {
         this.guest_tickets = data;
       }, 
       error =>{
-        console.log("There is no ticket  here !!!");
+        this.loading = false;
       })}
 
+    /*=================== Technician User====================*/
+    
+    /*Getting no assign tickets for existing technician */
+    allUnAssignTickets(){
+      this.loading= true;
+      this.ticketService.getUnAssignTickets().subscribe(
+        data => {
+          this.loading = false;
+          this.tech_unassign_tickets = data;
+        },
+        error =>{
+          this.loading = false;
+        }
+      )
+    }
+
+    /*Getting assign tickets for existing technician */
+    allAssignTickets(){
+      this.loading = true;
+      this.ticketService.getAssignTickets().subscribe(
+        data =>{
+          this.loading = false;
+          this.tech_assign_tickets = data;
+        },
+        error =>{
+          this.loading = false;
+        }
+      )
+    }
+
+    /* Assigned Or Unassign ticket to current technician */
+    assignOrUnassignTicket(id: number){
+      const msgBox = document.querySelector('#message2');
+      this.ticketService.assignOrUnassignTicketToTech(id).subscribe(
+        response =>{
+          this.message = "Operation is done Successfully";
+          this.msgColor = 'Green';
+          msgBox?.classList.add('active');
+          this.allAssignTickets();
+          this.allUnAssignTickets();
+          setTimeout(()=>{msgBox?.classList.remove('active')},4400);
+        },
+        error =>{
+          this.message = "Operation Failed, Please Try Again!";
+          this.msgColor = 'Red';
+          msgBox?.classList.add('active');
+          setTimeout(()=>{msgBox?.classList.remove('active')},4400);
+        }
+      )
+    }
+
+
+  /* ================ Guest User ====================*/
+  /* Getting ALl Tickets */
+  allTickets(){
+    this.loading = true;
+    this.ticketService.getAllTickets().subscribe(
+      data =>{
+        this.loading = false;
+        this.all_tickets = data;
+      },
+      error =>{
+        this.loading = false;
+      }
+    )
+  } 
+
+
+  /* =============Common Methods============== */
+  
+  
+    /*filtering table with status*/
     searchTicket(key: string):void{
       const result = [];
       let tickets = [];
@@ -65,7 +144,7 @@ export class ListTicketComponent implements OnInit {
         if(status.indexOf(key.toLowerCase()) !== -1 || 
            ticket.id.toString().indexOf(key.toString()) !== -1||
            ticket.openDate.toString().indexOf(key.toString()) !== -1||
-           ticket.product.name.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+           ticket.product?.name.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
            ticket.description.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
            ticket.guest.userName.toLowerCase().indexOf(key.toLowerCase()) !== -1){
              result.push(ticket);
@@ -89,9 +168,11 @@ export class ListTicketComponent implements OnInit {
         this.allUnAssignTickets();
         this.allGuestTickets();
         this.allTickets();
+  
       }
     }
 
+    /*show delete ticket cart*/
     deleteTicket(id: number){
       const deleteBtn = document.querySelector('.content');
       const cart = document.querySelector('.cart');
@@ -100,6 +181,7 @@ export class ListTicketComponent implements OnInit {
       this.ticketId = id;
     }
 
+    /*Cancel Delete Cart */
     cancelDeleteCart(){
       const deleteBtn = document.querySelector('.content');
       const cart = document.querySelector('.cart');
@@ -107,6 +189,7 @@ export class ListTicketComponent implements OnInit {
       deleteBtn?.classList.remove('active');
     }
 
+    /* Delete Ticket Cart By Id */
     deleteTicketById(){
       const msgBox = document.querySelector('#message1');
       this.ticketService.deleteTicket(this.ticketId).subscribe(
@@ -131,66 +214,5 @@ export class ListTicketComponent implements OnInit {
       )
     }
 
-    allUnAssignTickets(){
-      this.loading= true;
-      this.ticketService.getUnAssignTickets().subscribe(
-        data => {
-          this.loading = false;
-          this.tech_unassign_tickets = data;
-        },
-        error =>{
-          this.loading = false;
-          console.log("Error!!! Unassign Tickets");
-        }
-      )
-    }
 
-    /*Getting assign tickets for existing technician */
-    allAssignTickets(){
-      this.loading = true;
-      this.ticketService.getAssignTickets().subscribe(
-        data =>{
-          this.loading = false;
-          this.tech_assign_tickets = data;
-        },
-        error =>{
-          this.loading = false;
-          console.log("Error!!! Assign Tickets");
-        }
-      )
-    }
-
-    assignOrUnassignTicket(id: number){
-      const msgBox = document.querySelector('#message2');
-      this.ticketService.assignOrUnassignTicketToTech(id).subscribe(
-        response =>{
-          this.message = "Operation is done Successfully";
-          this.msgColor = 'Green';
-          msgBox?.classList.add('active');
-          this.allAssignTickets();
-          this.allUnAssignTickets();
-          setTimeout(()=>{msgBox?.classList.remove('active')},4400);
-        },
-        error =>{
-          this.message = "Operation Failed, Please Try Again!";
-          this.msgColor = 'Red';
-          msgBox?.classList.add('active');
-          setTimeout(()=>{msgBox?.classList.remove('active')},4400);
-        }
-      )
-    }
-
-  allTickets(){
-    this.loading = true;
-    this.ticketService.getAllTickets().subscribe(
-      data =>{
-        this.loading = false;
-        this.all_tickets = data;
-      },
-      error =>{
-        this.loading = false;
-        console.log("No Tickets");
-      }
-    )
-  } 
 }
