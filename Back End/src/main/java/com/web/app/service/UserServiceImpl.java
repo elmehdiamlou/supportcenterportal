@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
 	    return emptyNames.toArray(result);
 	}
 	@Override
+	// then use Spring BeanUtils to copy and ignore null using our function
 	public User ignoreNullCopy(User src, User target) {
 	    BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
 	    return target;

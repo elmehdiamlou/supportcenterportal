@@ -1,52 +1,44 @@
 package com.web.app.payload.response;
 
-import java.util.List;
+
 
 public class JwtResponse {
-	private String token;
-	private String type = "Bearer";
-	private String email;
-	private List<String> roles;
-
-	public JwtResponse(String token, String email, List<String> roles) {
+	private String accessToken;
+	private String userName;
+	private String role;
+	
+	public JwtResponse(String accessToken, String userName, String role) {
 		super();
-		this.token = token;
-		this.email = email;
-		this.roles = roles;
+		this.accessToken = accessToken;
+		this.userName = userName;
+		this.role = role;
 	}
-
 	public String getAccessToken() {
-		return token;
+		return accessToken;
 	}
-
 	public void setAccessToken(String accessToken) {
-		this.token = accessToken;
+		this.accessToken = accessToken;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
 	}
 
-	public String getTokenType() {
-		return type;
-	}
-
-	public void setTokenType(String tokenType) {
-		this.type = tokenType;
-	}
+	
 
 
-	public String getEmail() {
-		return email;
-	}
+	
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
-	public List<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
-	}
+	
 
 	
 }

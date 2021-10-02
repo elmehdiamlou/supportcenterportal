@@ -13,6 +13,9 @@ import javax.persistence.Table;
 @Table(name="products")
 public class Product implements Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -22,16 +25,18 @@ public class Product implements Serializable {
 	private String name;
 	private String description; 
 	private String category;
+	private Boolean status;
 	
 	public Product() {
 		super();
 	}
 
-	public Product(String name, String description, String category) {
+	public Product(String name, String description, String category, Boolean status) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.category = category;
+		this.status = status;
 	}
 
 	public Long getId() {
@@ -65,4 +70,14 @@ public class Product implements Serializable {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+	
 }

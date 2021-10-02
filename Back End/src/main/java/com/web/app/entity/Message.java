@@ -1,9 +1,10 @@
 package com.web.app.entity;
 
 import java.io.Serializable;
+
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +18,9 @@ import javax.persistence.Table;
 @Table(name="messages")
 public class Message implements Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -32,10 +36,12 @@ public class Message implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Ticket ticket;
 
+	/* Constructor */
 	public Message() {
 		super();
 	}
 
+	
 	public Message(LocalDateTime createdOn, String content, User sender, Ticket ticket) {
 		super();
 		this.createdOn = createdOn;
@@ -44,6 +50,8 @@ public class Message implements Serializable {
 		this.ticket = ticket;
 	}
 
+
+	/* Getters and setters */
 	public Long getId() {
 		return id;
 	}
@@ -52,13 +60,16 @@ public class Message implements Serializable {
 		this.id = id;
 	}
 
+	
 	public LocalDateTime getCreatedOn() {
 		return createdOn;
 	}
 
+
 	public void setCreatedOn(LocalDateTime createdOn) {
 		this.createdOn = createdOn;
 	}
+
 
 	public String getContent() {
 		return content;
@@ -83,4 +94,6 @@ public class Message implements Serializable {
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
 	}
+	
+	
 }

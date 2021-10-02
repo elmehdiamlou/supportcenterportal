@@ -42,6 +42,7 @@ public class ProductController {
 	@Autowired
 	private JwtUtils jwtUtils;
 	
+	/* Getting All Products */
 	@GetMapping(value="/all")
 	public ResponseEntity<List<Product>> getAllProducts(@RequestHeader("Authorization") String token){
 		try {
@@ -53,11 +54,14 @@ public class ProductController {
 		}
 	}
 	
+	
+	/* Add new Product By administrator */
 	@PostMapping(value="/add")
 	public ResponseEntity<Product> addNewProduct(@RequestHeader("Authorization") String token, @RequestBody Product product){
 		try {
 			User admin = this.userService.findUserByUsername(this.jwtUtils.getUserNameFromJwtToken(token));
 			if(admin != null && product != null) {
+				product.setStatus(false);
 				this.productService.addProduct(product);
 			}
 			return new ResponseEntity<Product>(product, HttpStatus.OK);
@@ -66,6 +70,7 @@ public class ProductController {
 		}
 	}
 	
+	/* Edit Product */
 	@PostMapping(value="/edit")
 	public ResponseEntity<Product> editProduct(@RequestHeader("Authorization") String token, @RequestBody Product product){
 		try {
@@ -82,6 +87,7 @@ public class ProductController {
 		}
 	}
 
+	/* get Product */
 	@GetMapping(value="/get")
 	public ResponseEntity<Product> getProduct(@RequestHeader("Authorization") String token, @RequestParam("productId") String id){
 		try {
@@ -93,20 +99,28 @@ public class ProductController {
 		}
 	}
 	
+	/* Delete Product */
 	@DeleteMapping(value="/delete")
 	public ResponseEntity<?> deleteProduct(@RequestHeader("Authorization") String token, @RequestParam("productId") Long productId){
 		try {
 			if(this.userService.findUserByUsername(this.jwtUtils.getUserNameFromJwtToken(token)) != null &&
 			   this.productService.getProductById(productId) != null) 
 			{
-				List<Ticket> tickets = this.ticketService.allTickets().stream()
-						                      .filter(ticket -> ticket.getProduct().getId().equals(productId))
-						                      .collect(Collectors.toList());
-				this.productService.deleteProduct(productId);
-				for(Ticket ticket : tickets) {
-					ticket.setProduct(null);
-					this.ticketService.addTicket(ticket);
-				}
+				Product product = this.productService.getProductById(productId);
+				if(product.getStatus()) {
+					List<Ticket> tickets = this.ticketService.allTickets().stream()
+		                      .filter(ticket -> ticket.getProduct().getId().equals(productId))
+		                      .collect(Collectors.toList());
+
+                	for(Ticket ticket : tickets) {
+		                   ticket.setProduct(null);
+		                   this.ticketService.addTicket(ticket);
+	                  }
+                	
+                	this.productService.deleteProduct(productId);
+				}else {
+					this.productService.deleteProduct(productId);
+				}	
 			}
 			return ResponseEntity.ok(new MessageResponse("Delete Product Successfully."));
 		}catch(Exception e) {

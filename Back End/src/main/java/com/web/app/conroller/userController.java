@@ -31,6 +31,7 @@ import com.web.app.security.JwtUtils;
 import com.web.app.service.TicketService;
 import com.web.app.service.UserService;
 
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value="/api/management")
@@ -56,7 +57,7 @@ public class userController {
 	
 	@Autowired
 	private JwtUtils jwtUtils;
-
+	
 	@GetMapping(value="/role")
 	public ResponseEntity<?> getUserRole(@RequestHeader("authorization") String token){
 		try {
