@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
       },
       error =>{
         this.loading = false;  
+        this.error =  error.error.message;
       }
     )
   }
